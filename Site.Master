@@ -17,6 +17,160 @@
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
 </head>
+
+            <!-- Aquí va el CSS -->
+
+  <style>
+    /* Estilo general */
+h2 {
+    text-align: center; 
+    font-family: 'Pacifico', 'Comic Sans MS';
+    font-size: 36px; 
+    color: black; 
+    text-transform: uppercase; 
+    letter-spacing: 2px; 
+    margin-top: 50px; 
+    margin-bottom: 20px; 
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+/* Estilo para el encabezado */
+header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+
+/* Estilo para el contenedor principal */
+.container {
+    width: 80%;
+    margin: 20px auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo de las tablas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: darkred; /* Fondo verde para el encabezado */
+    color: white;
+    font-weight: bold;
+}
+
+/* Estilo para el LinkButton (enlace estilizado como botón) */
+.link-button {
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    text-decoration: none; /* Eliminar subrayado */
+    color: white; /* Texto blanco */
+    background-color: lightblue; /* Fondo azul */
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.link-button:hover {
+    background-color: lightskyblue; /* Fondo celeste al pasar el mouse */
+    transform: translateY(-2px); /* Sombra sutil para el efecto de hover */
+}
+
+.link-button:active {
+    background-color: lightblue; /* Fondo más oscuro de azul cuando se hace clic */
+    transform: translateY(0); /* Restaurar la posición después de hacer clic */
+}
+
+/* Estilo para los botones de submit y button */
+input[type="submit"], input[type="button"] {
+    background-color: cornflowerblue;
+    color: white;
+    font-size: 16px;
+    font-family: 'Arial', sans-serif;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover, input[type="button"]:hover {
+    background-color: lightblue;
+}
+
+input[type="submit"]:active, input[type="button"]:active {
+    background-color: lightskyblue;
+}
+
+/* Eliminar estilo por defecto de enlaces */
+a:link, a:visited {
+    text-decoration: none; /* Sin subrayado */
+    color: inherit; /* Mantener el color del texto */
+}
+
+a:hover, a:active {
+    text-decoration: none; /* Sin subrayado */
+    color: inherit; /* Mantener el color del texto */
+}
+
+/* Estilo para la tabla GridView de médicos */
+.grid-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.gridview-style {
+    border-collapse: collapse;
+    width: 80%;
+    text-align: center;
+    margin: 20px auto;
+}
+
+.gridview-style th, .gridview-style td {
+    padding: 15px;
+    border: 1px solid #ddd;
+    color: black;
+}
+
+.gridview-style th {
+    background-color: #343a40; /* Fondo negro */
+    color: white; /* Texto blanco */
+    font-weight: bold;
+}
+
+.gridview-style td {
+    background-color: #f9f9f9; /* Fondo blanco para las celdas */
+}
+
+.grid-row {
+    padding: 15px;
+}
+
+</style>
+
+
 <body>
     <form runat="server">
         <asp:ScriptManager runat="server">

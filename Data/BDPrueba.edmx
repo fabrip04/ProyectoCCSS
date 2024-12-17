@@ -1,0 +1,376 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CCSSDatosModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Expedientes">
+          <Key>
+            <PropertyRef Name="ID_Expediente" />
+          </Key>
+          <Property Name="ID_Expediente" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Paciente" Type="int" />
+          <Property Name="ID_Medico" Type="int" />
+          <Property Name="Diagnostico" Type="text" />
+          <Property Name="Tratamiento" Type="text" />
+          <Property Name="Resultados_Pruebas" Type="text" />
+          <Property Name="Fecha_Creacion" Type="date" />
+        </EntityType>
+        <EntityType Name="Pacientes">
+          <Key>
+            <PropertyRef Name="ID_Paciente" />
+          </Key>
+          <Property Name="ID_Paciente" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" />
+          <Property Name="Apellido" Type="nvarchar" MaxLength="50" />
+          <Property Name="Fecha_Nacimiento" Type="date" />
+          <Property Name="Datos_Contacto" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="PersonalMedico">
+          <Key>
+            <PropertyRef Name="ID_Medico" />
+          </Key>
+          <Property Name="ID_Medico" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" />
+          <Property Name="Apellido" Type="nvarchar" MaxLength="50" />
+          <Property Name="Especialidad" Type="nvarchar" MaxLength="50" />
+          <Property Name="Usuario" Type="nvarchar" MaxLength="50" />
+          <Property Name="Contraseña" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="fk_medico">
+          <End Role="PersonalMedico" Type="Self.PersonalMedico" Multiplicity="0..1" />
+          <End Role="Expedientes" Type="Self.Expedientes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PersonalMedico">
+              <PropertyRef Name="ID_Medico" />
+            </Principal>
+            <Dependent Role="Expedientes">
+              <PropertyRef Name="ID_Medico" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_paciente">
+          <End Role="Pacientes" Type="Self.Pacientes" Multiplicity="0..1" />
+          <End Role="Expedientes" Type="Self.Expedientes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pacientes">
+              <PropertyRef Name="ID_Paciente" />
+            </Principal>
+            <Dependent Role="Expedientes">
+              <PropertyRef Name="ID_Paciente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="ActualizarMedico" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_Medico" Type="int" Mode="In" />
+          <Parameter Name="Nombre" Type="nvarchar" Mode="In" />
+          <Parameter Name="Apellido" Type="nvarchar" Mode="In" />
+          <Parameter Name="Especialidad" Type="nvarchar" Mode="In" />
+          <Parameter Name="Usuario" Type="nvarchar" Mode="In" />
+          <Parameter Name="Contraseña" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="ActualizarPaciente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_Paciente" Type="int" Mode="In" />
+          <Parameter Name="Nombre" Type="nvarchar" Mode="In" />
+          <Parameter Name="Apellido" Type="nvarchar" Mode="In" />
+          <Parameter Name="Fecha_Nacimiento" Type="date" Mode="In" />
+          <Parameter Name="Datos_Contacto" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="EliminarExpediente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_Expediente" Type="int" Mode="In" />
+        </Function>
+        <Function Name="EliminarMedico" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_Medico" Type="int" Mode="In" />
+        </Function>
+        <Function Name="EliminarPaciente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_Paciente" Type="int" Mode="In" />
+        </Function>
+        <Function Name="InsertarExpediente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_Paciente" Type="int" Mode="In" />
+          <Parameter Name="ID_Medico" Type="int" Mode="In" />
+          <Parameter Name="Diagnostico" Type="text" Mode="In" />
+          <Parameter Name="Tratamiento" Type="text" Mode="In" />
+          <Parameter Name="Resultados_Pruebas" Type="text" Mode="In" />
+          <Parameter Name="Fecha_Creacion" Type="date" Mode="In" />
+        </Function>
+        <Function Name="InsertarMedico" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Nombre" Type="nvarchar" Mode="In" />
+          <Parameter Name="Apellido" Type="nvarchar" Mode="In" />
+          <Parameter Name="Especialidad" Type="nvarchar" Mode="In" />
+          <Parameter Name="Usuario" Type="nvarchar" Mode="In" />
+          <Parameter Name="Contraseña" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="InsertarPaciente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Nombre" Type="nvarchar" Mode="In" />
+          <Parameter Name="Apellido" Type="nvarchar" Mode="In" />
+          <Parameter Name="Fecha_Nacimiento" Type="date" Mode="In" />
+          <Parameter Name="Datos_Contacto" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="ObtenerExpedientesPorMedico" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_Medico" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ObtenerExpedientesPorPaciente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID_Paciente" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="CCSSDatosModelStoreContainer">
+          <EntitySet Name="Expedientes" EntityType="Self.Expedientes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pacientes" EntityType="Self.Pacientes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonalMedico" EntityType="Self.PersonalMedico" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_medico" Association="Self.fk_medico">
+            <End Role="PersonalMedico" EntitySet="PersonalMedico" />
+            <End Role="Expedientes" EntitySet="Expedientes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_paciente" Association="Self.fk_paciente">
+            <End Role="Pacientes" EntitySet="Pacientes" />
+            <End Role="Expedientes" EntitySet="Expedientes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CCSSDatosModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Expedientes">
+          <Key>
+            <PropertyRef Name="ID_Expediente" />
+          </Key>
+          <Property Name="ID_Expediente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Paciente" Type="Int32" />
+          <Property Name="ID_Medico" Type="Int32" />
+          <Property Name="Diagnostico" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Tratamiento" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Resultados_Pruebas" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Fecha_Creacion" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="PersonalMedico" Relationship="Self.fk_medico" FromRole="Expedientes" ToRole="PersonalMedico" />
+          <NavigationProperty Name="Pacientes" Relationship="Self.fk_paciente" FromRole="Expedientes" ToRole="Pacientes" />
+        </EntityType>
+        <EntityType Name="Pacientes">
+          <Key>
+            <PropertyRef Name="ID_Paciente" />
+          </Key>
+          <Property Name="ID_Paciente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Fecha_Nacimiento" Type="DateTime" Precision="0" />
+          <Property Name="Datos_Contacto" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Expedientes" Relationship="Self.fk_paciente" FromRole="Pacientes" ToRole="Expedientes" />
+        </EntityType>
+        <EntityType Name="PersonalMedico">
+          <Key>
+            <PropertyRef Name="ID_Medico" />
+          </Key>
+          <Property Name="ID_Medico" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Especialidad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Usuario" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Contraseña" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Expedientes" Relationship="Self.fk_medico" FromRole="PersonalMedico" ToRole="Expedientes" />
+        </EntityType>
+        <Association Name="fk_medico">
+          <End Role="PersonalMedico" Type="Self.PersonalMedico" Multiplicity="0..1" />
+          <End Role="Expedientes" Type="Self.Expedientes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PersonalMedico">
+              <PropertyRef Name="ID_Medico" />
+            </Principal>
+            <Dependent Role="Expedientes">
+              <PropertyRef Name="ID_Medico" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_paciente">
+          <End Role="Pacientes" Type="Self.Pacientes" Multiplicity="0..1" />
+          <End Role="Expedientes" Type="Self.Expedientes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pacientes">
+              <PropertyRef Name="ID_Paciente" />
+            </Principal>
+            <Dependent Role="Expedientes">
+              <PropertyRef Name="ID_Paciente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CCSSDatosEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Expedientes" EntityType="Self.Expedientes" />
+          <EntitySet Name="Pacientes" EntityType="Self.Pacientes" />
+          <EntitySet Name="PersonalMedico" EntityType="Self.PersonalMedico" />
+          <AssociationSet Name="fk_medico" Association="Self.fk_medico">
+            <End Role="PersonalMedico" EntitySet="PersonalMedico" />
+            <End Role="Expedientes" EntitySet="Expedientes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_paciente" Association="Self.fk_paciente">
+            <End Role="Pacientes" EntitySet="Pacientes" />
+            <End Role="Expedientes" EntitySet="Expedientes" />
+          </AssociationSet>
+          <FunctionImport Name="ActualizarMedico">
+            <Parameter Name="ID_Medico" Mode="In" Type="Int32" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Apellido" Mode="In" Type="String" />
+            <Parameter Name="Especialidad" Mode="In" Type="String" />
+            <Parameter Name="Usuario" Mode="In" Type="String" />
+            <Parameter Name="Contraseña" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ActualizarPaciente">
+            <Parameter Name="ID_Paciente" Mode="In" Type="Int32" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Apellido" Mode="In" Type="String" />
+            <Parameter Name="Fecha_Nacimiento" Mode="In" Type="DateTime" />
+            <Parameter Name="Datos_Contacto" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="EliminarExpediente">
+            <Parameter Name="ID_Expediente" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="EliminarMedico">
+            <Parameter Name="ID_Medico" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="EliminarPaciente">
+            <Parameter Name="ID_Paciente" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="InsertarExpediente">
+            <Parameter Name="ID_Paciente" Mode="In" Type="Int32" />
+            <Parameter Name="ID_Medico" Mode="In" Type="Int32" />
+            <Parameter Name="Diagnostico" Mode="In" Type="String" />
+            <Parameter Name="Tratamiento" Mode="In" Type="String" />
+            <Parameter Name="Resultados_Pruebas" Mode="In" Type="String" />
+            <Parameter Name="Fecha_Creacion" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="InsertarMedico">
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Apellido" Mode="In" Type="String" />
+            <Parameter Name="Especialidad" Mode="In" Type="String" />
+            <Parameter Name="Usuario" Mode="In" Type="String" />
+            <Parameter Name="Contraseña" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="InsertarPaciente">
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Apellido" Mode="In" Type="String" />
+            <Parameter Name="Fecha_Nacimiento" Mode="In" Type="DateTime" />
+            <Parameter Name="Datos_Contacto" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerExpedientesPorMedico" ReturnType="Collection(CCSSDatosModel.ObtenerExpedientesPorMedico_Result)">
+            <Parameter Name="ID_Medico" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerExpedientesPorPaciente" ReturnType="Collection(CCSSDatosModel.ObtenerExpedientesPorPaciente_Result)">
+            <Parameter Name="ID_Paciente" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="ObtenerExpedientesPorMedico_Result">
+          <Property Type="Int32" Name="ID_Expediente" Nullable="false" />
+          <Property Type="Int32" Name="ID_Paciente" Nullable="true" />
+          <Property Type="Int32" Name="ID_Medico" Nullable="true" />
+          <Property Type="String" Name="Diagnostico" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="Tratamiento" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="Resultados_Pruebas" Nullable="true" MaxLength="Max" />
+          <Property Type="DateTime" Name="Fecha_Creacion" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="ObtenerExpedientesPorPaciente_Result">
+          <Property Type="Int32" Name="ID_Expediente" Nullable="false" />
+          <Property Type="Int32" Name="ID_Paciente" Nullable="true" />
+          <Property Type="Int32" Name="ID_Medico" Nullable="true" />
+          <Property Type="String" Name="Diagnostico" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="Tratamiento" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="Resultados_Pruebas" Nullable="true" MaxLength="Max" />
+          <Property Type="DateTime" Name="Fecha_Creacion" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CCSSDatosModelStoreContainer" CdmEntityContainer="CCSSDatosEntities">
+          <EntitySetMapping Name="Expedientes">
+            <EntityTypeMapping TypeName="CCSSDatosModel.Expedientes">
+              <MappingFragment StoreEntitySet="Expedientes">
+                <ScalarProperty Name="ID_Expediente" ColumnName="ID_Expediente" />
+                <ScalarProperty Name="ID_Paciente" ColumnName="ID_Paciente" />
+                <ScalarProperty Name="ID_Medico" ColumnName="ID_Medico" />
+                <ScalarProperty Name="Diagnostico" ColumnName="Diagnostico" />
+                <ScalarProperty Name="Tratamiento" ColumnName="Tratamiento" />
+                <ScalarProperty Name="Resultados_Pruebas" ColumnName="Resultados_Pruebas" />
+                <ScalarProperty Name="Fecha_Creacion" ColumnName="Fecha_Creacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pacientes">
+            <EntityTypeMapping TypeName="CCSSDatosModel.Pacientes">
+              <MappingFragment StoreEntitySet="Pacientes">
+                <ScalarProperty Name="ID_Paciente" ColumnName="ID_Paciente" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Fecha_Nacimiento" ColumnName="Fecha_Nacimiento" />
+                <ScalarProperty Name="Datos_Contacto" ColumnName="Datos_Contacto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PersonalMedico">
+            <EntityTypeMapping TypeName="CCSSDatosModel.PersonalMedico">
+              <MappingFragment StoreEntitySet="PersonalMedico">
+                <ScalarProperty Name="ID_Medico" ColumnName="ID_Medico" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Especialidad" ColumnName="Especialidad" />
+                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
+                <ScalarProperty Name="Contraseña" ColumnName="Contraseña" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="ActualizarMedico" FunctionName="CCSSDatosModel.Store.ActualizarMedico" />
+          <FunctionImportMapping FunctionImportName="ActualizarPaciente" FunctionName="CCSSDatosModel.Store.ActualizarPaciente" />
+          <FunctionImportMapping FunctionImportName="EliminarExpediente" FunctionName="CCSSDatosModel.Store.EliminarExpediente" />
+          <FunctionImportMapping FunctionImportName="EliminarMedico" FunctionName="CCSSDatosModel.Store.EliminarMedico" />
+          <FunctionImportMapping FunctionImportName="EliminarPaciente" FunctionName="CCSSDatosModel.Store.EliminarPaciente" />
+          <FunctionImportMapping FunctionImportName="InsertarExpediente" FunctionName="CCSSDatosModel.Store.InsertarExpediente" />
+          <FunctionImportMapping FunctionImportName="InsertarMedico" FunctionName="CCSSDatosModel.Store.InsertarMedico" />
+          <FunctionImportMapping FunctionImportName="InsertarPaciente" FunctionName="CCSSDatosModel.Store.InsertarPaciente" />
+          <FunctionImportMapping FunctionImportName="ObtenerExpedientesPorMedico" FunctionName="CCSSDatosModel.Store.ObtenerExpedientesPorMedico">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CCSSDatosModel.ObtenerExpedientesPorMedico_Result">
+                <ScalarProperty Name="ID_Expediente" ColumnName="ID_Expediente" />
+                <ScalarProperty Name="ID_Paciente" ColumnName="ID_Paciente" />
+                <ScalarProperty Name="ID_Medico" ColumnName="ID_Medico" />
+                <ScalarProperty Name="Diagnostico" ColumnName="Diagnostico" />
+                <ScalarProperty Name="Tratamiento" ColumnName="Tratamiento" />
+                <ScalarProperty Name="Resultados_Pruebas" ColumnName="Resultados_Pruebas" />
+                <ScalarProperty Name="Fecha_Creacion" ColumnName="Fecha_Creacion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ObtenerExpedientesPorPaciente" FunctionName="CCSSDatosModel.Store.ObtenerExpedientesPorPaciente">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CCSSDatosModel.ObtenerExpedientesPorPaciente_Result">
+                <ScalarProperty Name="ID_Expediente" ColumnName="ID_Expediente" />
+                <ScalarProperty Name="ID_Paciente" ColumnName="ID_Paciente" />
+                <ScalarProperty Name="ID_Medico" ColumnName="ID_Medico" />
+                <ScalarProperty Name="Diagnostico" ColumnName="Diagnostico" />
+                <ScalarProperty Name="Tratamiento" ColumnName="Tratamiento" />
+                <ScalarProperty Name="Resultados_Pruebas" ColumnName="Resultados_Pruebas" />
+                <ScalarProperty Name="Fecha_Creacion" ColumnName="Fecha_Creacion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
