@@ -35,15 +35,17 @@
 <asp:Label ID="lblMensaje" runat="server" ForeColor="Red"></asp:Label>
 
 <!-- Tabla para mostrar los médicos registrados -->
-<asp:GridView ID="GridViewMedicos" runat="server" AutoGenerateColumns="False">
-    <Columns>
+<asp:GridView ID="GridViewMedicos" runat="server" AutoGenerateColumns="False" DataKeyNames="ID_Medico" OnRowCommand="GridViewMedicos_RowCommand">    <Columns>
         <asp:BoundField DataField="ID_Medico" HeaderText="ID Médico" />
         <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
         <asp:BoundField DataField="Apellido" HeaderText="Apellido" />
         <asp:BoundField DataField="Especialidad" HeaderText="Especialidad" />
+        <asp:ButtonField ButtonType="Button" CommandName="DeleteMedicos" Text="Eliminar" />
     </Columns>
 </asp:GridView>
 <br />
+
+
 
 <!-- Link para navegar a la página de Pacientes -->
 

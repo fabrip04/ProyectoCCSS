@@ -116,5 +116,54 @@ namespace ProyectoCCSS.Pages
         {
             Response.Redirect("Medicos.aspx");
         }
+
+        protected void GridViewExpedientes_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "DeleteExpediente")
+            {
+                try
+                {
+                    // Obtén el índice de la fila seleccionada
+                    int rowIndex = Convert.ToInt32(e.CommandArgument);
+
+                    // Verifica si el índice está dentro del rango
+                    if (rowIndex < 0 || rowIndex >= GridViewExpedientes.DataKeys.Count)
+                    {
+                        lblMensaje.Text = "Error: Índice fuera del rango.";
+                        lblMensaje.ForeColor = System.Drawing.Color.Red;
+                        return;
+                    }
+
+                    // Obtén el ID del expediente de la fila seleccionada
+                    int idExpediente = Convert.ToInt32(GridViewExpedientes.DataKeys[rowIndex].Value);
+
+                    // Lógica para eliminar el expediente
+                    using (var contexto = new CCSSDatosEntities())
+                    {
+                        var expediente = contexto.Expedientes.Find(idExpediente);
+                        if (expediente != null)
+                        {
+                            contexto.Expedientes.Remove(expediente);
+                            contexto.SaveChanges();
+                            lblMensaje.Text = "Expediente eliminado correctamente.";
+                            lblMensaje.ForeColor = System.Drawing.Color.Green;
+                        }
+                        else
+                        {
+                            lblMensaje.Text = "Expediente no encontrado.";
+                            lblMensaje.ForeColor = System.Drawing.Color.Red;
+                        }
+                    }
+
+                    // Recargar el GridView
+                    CargarExpedientes();
+                }
+                catch (Exception ex)
+                {
+                    lblMensaje.Text = "Ocurrió un error: " + ex.Message;
+                    lblMensaje.ForeColor = System.Drawing.Color.Red;
+                }
+            }
+        }
     }
 }

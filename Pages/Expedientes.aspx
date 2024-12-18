@@ -37,7 +37,7 @@
 
     <!-- GridView para mostrar los expedientes registrados -->
     <!-- GridView para mostrar los expedientes registrados -->
-    <asp:GridView ID="GridViewExpedientes" runat="server" AutoGenerateColumns="False">
+    <asp:GridView ID="GridViewExpedientes" runat="server" AutoGenerateColumns="False" DataKeyNames="ID_Expediente" OnRowCommand="GridViewExpedientes_RowCommand">
     <Columns>
         <asp:BoundField DataField="ID_Expediente" HeaderText="ID Expediente" />
         <asp:BoundField DataField="ID_Paciente" HeaderText="ID Paciente" />

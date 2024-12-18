@@ -96,41 +96,55 @@ namespace ProyectoCCSS.Pages
             }
         }
 
-        // Método para manejar los comandos de la GridView (Eliminar paciente)
+
         protected void GridViewPacientes_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            if (e.CommandName == "Eliminar")
+            if (e.CommandName == "DeletePaciente")
             {
-                int idPaciente = Convert.ToInt32(e.CommandArgument);
-                EliminarPaciente(idPaciente); // Eliminar paciente
-                CargarPacientes(); // Recargar la lista después de eliminar
-            }
-        }
-
-        // Método para eliminar un paciente
-        private void EliminarPaciente(int idPaciente)
-        {
-            try
-            {
-                string connectionString = ConfigurationManager.ConnectionStrings["SqlConnection"].ConnectionString;
-
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                try
                 {
-                    using (SqlCommand command = new SqlCommand("EliminarPaciente", connection))
-                    {
-                        command.CommandType = System.Data.CommandType.StoredProcedure;
-                        command.Parameters.AddWithValue("@ID_Paciente", idPaciente);
+                    // Obtén el índice de la fila seleccionada
+                    int rowIndex = Convert.ToInt32(e.CommandArgument);
 
-                        connection.Open();
-                        command.ExecuteNonQuery();
-                        connection.Close();
+                    // Verifica si el índice está dentro del rango
+                    if (rowIndex < 0 || rowIndex >= GridViewPacientes.Rows.Count)
+                    {
+                        lblMensaje.Text = "Error: Índice fuera del rango.";
+                        lblMensaje.ForeColor = System.Drawing.Color.Red;
+                        return;
                     }
+
+                    // Obtén el ID del paciente de la fila seleccionada
+                    int idPaciente = Convert.ToInt32(GridViewPacientes.DataKeys[rowIndex].Value);
+
+                    // Lógica para eliminar el paciente
+                    using (var contexto = new CCSSDatosEntities())
+                    {
+                        // Buscar el paciente por ID
+                        var paciente = contexto.Pacientes.FirstOrDefault(p => p.ID_Paciente == idPaciente);
+
+                        if (paciente != null)
+                        {
+                            contexto.Pacientes.Remove(paciente);  // Eliminar el paciente
+                            contexto.SaveChanges();
+                            lblMensaje.Text = "Paciente eliminado correctamente.";
+                            lblMensaje.ForeColor = System.Drawing.Color.Green;
+                        }
+                        else
+                        {
+                            lblMensaje.Text = "Paciente no encontrado.";
+                            lblMensaje.ForeColor = System.Drawing.Color.Red;
+                        }
+                    }
+
+                    // Recargar el GridView
+                    CargarPacientes();
                 }
-            }
-            catch (Exception ex)
-            {
-                // Manejo de errores: Mostrar mensaje o registrar el error
-                Console.WriteLine("Error al eliminar paciente: " + ex.Message);
+                catch (Exception ex)
+                {
+                    lblMensaje.Text = "Ocurrió un error: " + ex.Message;
+                    lblMensaje.ForeColor = System.Drawing.Color.Red;
+                }
             }
         }
 

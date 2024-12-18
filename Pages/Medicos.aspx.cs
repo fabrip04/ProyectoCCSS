@@ -97,7 +97,62 @@ namespace ProyectoCCSS.Pages
             }
         }
 
-        // Método que se ejecuta cuando el botón para cambiar de página es presionado
+
+
+        // Método para manejar el comando de eliminación de médicos
+        protected void GridViewMedicos_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "DeleteMedicos")
+            {
+                try
+                {
+                    // Obtén el índice de la fila seleccionada
+                    int rowIndex = Convert.ToInt32(e.CommandArgument);
+
+                    // Verifica si el índice está dentro del rango
+                    if (rowIndex < 0 || rowIndex >= GridViewMedicos.Rows.Count)
+                    {
+                        lblMensaje.Text = "Error: Índice fuera del rango.";
+                        lblMensaje.ForeColor = System.Drawing.Color.Red;
+                        return;
+                    }
+
+                    // Obtén el ID del médico de la fila seleccionada
+                    int idMedico = Convert.ToInt32(GridViewMedicos.DataKeys[rowIndex].Value);
+
+                    // Lógica para eliminar el médico
+                    using (var contexto = new CCSSDatosEntities())
+                    {
+                        // Buscar el médico por ID
+                        var medico = contexto.PersonalMedico.FirstOrDefault(m => m.ID_Medico == idMedico);
+
+                        if (medico != null)
+                        {
+                            contexto.PersonalMedico.Remove(medico);  // Eliminar el médico
+                            contexto.SaveChanges();
+                            lblMensaje.Text = "Médico eliminado correctamente.";
+                            lblMensaje.ForeColor = System.Drawing.Color.Green;
+                        }
+                        else
+                        {
+                            lblMensaje.Text = "Médico no encontrado.";
+                            lblMensaje.ForeColor = System.Drawing.Color.Red;
+                        }
+                    }
+
+                    // Recargar el GridView
+                    CargarMedicos();
+                }
+                catch (Exception ex)
+                {
+                    lblMensaje.Text = "Ocurrió un error: " + ex.Message;
+                    lblMensaje.ForeColor = System.Drawing.Color.Red;
+                }
+            }
+        }
+
+
+
 
         protected void lnkIrAPacientes_Click(object sender, EventArgs e)
         {
