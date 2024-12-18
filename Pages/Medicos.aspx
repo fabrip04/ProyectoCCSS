@@ -35,7 +35,7 @@
     <br />
 </div>
 
-<hr />
+<hr /> 
 
 <!-- Mensaje de error o éxito -->
 <asp:Label ID="lblMensaje" runat="server" ForeColor="Red"></asp:Label>
