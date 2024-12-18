@@ -3,7 +3,11 @@
 
            <h2>Expedientes</h2>
 
-
+    <div class="submenu">
+    <a href="Medicos.aspx">Gestión de Médicos</a>
+    <a href="Pacientes.aspx">Gestión de Pacientes</a>
+    <a href="Expedientes.aspx">Gestión de Expedientes</a>
+</div>
 
     <!-- Formulario para agregar un nuevo expediente -->
     <asp:Label ID="lblIDPaciente" runat="server" Text="ID Paciente: " />
