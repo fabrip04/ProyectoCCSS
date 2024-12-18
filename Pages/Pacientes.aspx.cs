@@ -34,76 +34,52 @@ namespace ProyectoCCSS.Pages
             }
             catch (Exception ex)
             {
-                // Manejo de errores: Mostrar mensaje o registrar el error
-                Console.WriteLine("Error al cargar pacientes: " + ex.Message);
+                lblMensaje.Text = "Error al cargar pacientes: " + ex.Message;
+                lblMensaje.ForeColor = System.Drawing.Color.Red;
             }
         }
 
         // Método para agregar un nuevo paciente
         protected void btnAgregarPaciente_Click(object sender, EventArgs e)
         {
-            // Validaciones del lado del servidor
-            if (string.IsNullOrEmpty(txtNombre.Text) || string.IsNullOrEmpty(txtApellido.Text) ||
-                string.IsNullOrEmpty(txtFechaNacimiento.Text) || string.IsNullOrEmpty(txtDatosContacto.Text))
-            {
-                // Mostrar mensaje de error (se podría usar un Label de Error en la interfaz)
-                return;
-            }
-
-            // Validar que la fecha de nacimiento sea una fecha válida
-            DateTime fechaNacimiento;
-            if (!DateTime.TryParse(txtFechaNacimiento.Text, out fechaNacimiento))
-            {
-                // Mostrar mensaje de error por fecha inválida
-                return;
-            }
-
             try
             {
-                string nombre = txtNombre.Text;
-                string apellido = txtApellido.Text;
-                string datosContacto = txtDatosContacto.Text;
-
-                // Insertar nuevo paciente utilizando el procedimiento almacenado
-                string connectionString = ConfigurationManager.ConnectionStrings["SqlConnection"].ConnectionString;
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (var contexto = new CCSSDatosEntities())
                 {
-                    using (SqlCommand command = new SqlCommand("InsertarPaciente", connection))
-                    {
-                        command.CommandType = System.Data.CommandType.StoredProcedure;
-                        command.Parameters.AddWithValue("@Nombre", nombre);
-                        command.Parameters.AddWithValue("@Apellido", apellido);
-                        command.Parameters.AddWithValue("@Fecha_Nacimiento", fechaNacimiento);
-                        command.Parameters.AddWithValue("@Datos_Contacto", datosContacto);
+                    contexto.InsertarPaciente(
+                        txtNombre.Text.Trim(),
+                        txtApellido.Text.Trim(),
+                        DateTime.Parse(txtFechaNacimiento.Text),
+                        txtDatosContacto.Text.Trim()
+                    );
 
-                        connection.Open();
-                        command.ExecuteNonQuery();
-                        connection.Close();
-                    }
+                    lblMensaje.Text = "Paciente agregado exitosamente.";
+                    lblMensaje.ForeColor = System.Drawing.Color.Green;
+
+                    // Limpiar campos del formulario
+                    txtNombre.Text = "";
+                    txtApellido.Text = "";
+                    txtFechaNacimiento.Text = "";
+                    txtDatosContacto.Text = "";
+
+                    // Recargar la lista de pacientes
+                    CargarPacientes();
                 }
-
-                // Limpiar campos después de agregar y recargar la lista de pacientes
-                txtNombre.Text = "";
-                txtApellido.Text = "";
-                txtFechaNacimiento.Text = "";
-                txtDatosContacto.Text = "";
-                CargarPacientes(); // Recargar la lista de pacientes después de agregar uno nuevo
             }
             catch (Exception ex)
             {
-                // Manejo de errores: Mostrar mensaje o registrar el error
-                Console.WriteLine("Error al agregar paciente: " + ex.Message);
+                lblMensaje.Text = "Error al agregar paciente: " + ex.Message;
+                lblMensaje.ForeColor = System.Drawing.Color.Red;
             }
         }
 
-
+        // Método para manejar el comando de eliminación en el GridView
         protected void GridViewPacientes_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             if (e.CommandName == "DeletePaciente")
             {
                 try
                 {
-                    // Obtén el índice de la fila seleccionada
                     int rowIndex = Convert.ToInt32(e.CommandArgument);
 
                     // Verifica si el índice está dentro del rango
@@ -114,19 +90,17 @@ namespace ProyectoCCSS.Pages
                         return;
                     }
 
-                    // Obtén el ID del paciente de la fila seleccionada
                     int idPaciente = Convert.ToInt32(GridViewPacientes.DataKeys[rowIndex].Value);
 
-                    // Lógica para eliminar el paciente
                     using (var contexto = new CCSSDatosEntities())
                     {
-                        // Buscar el paciente por ID
                         var paciente = contexto.Pacientes.FirstOrDefault(p => p.ID_Paciente == idPaciente);
 
                         if (paciente != null)
                         {
-                            contexto.Pacientes.Remove(paciente);  // Eliminar el paciente
+                            contexto.Pacientes.Remove(paciente);
                             contexto.SaveChanges();
+
                             lblMensaje.Text = "Paciente eliminado correctamente.";
                             lblMensaje.ForeColor = System.Drawing.Color.Green;
                         }
@@ -137,7 +111,6 @@ namespace ProyectoCCSS.Pages
                         }
                     }
 
-                    // Recargar el GridView
                     CargarPacientes();
                 }
                 catch (Exception ex)
@@ -148,6 +121,7 @@ namespace ProyectoCCSS.Pages
             }
         }
 
+        // Método para cambiar de página
         protected void btnCambiarPagina_Click(object sender, EventArgs e)
         {
             Response.Redirect("Expedientes.aspx");

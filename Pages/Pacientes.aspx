@@ -2,7 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-   <h2>Lista de Pacientes</h2>
+  <h2>Lista de Pacientes</h2>
 
 <!-- Formulario para agregar un nuevo paciente -->
 <div>
@@ -30,8 +30,7 @@
 <hr />
 
 
-<asp:GridView ID="GridViewPacientes" runat="server" AutoGenerateColumns="False" DataKeyNames="ID_Paciente" OnRowCommand="GridViewPacientes_RowCommand">
-    <Columns>
+<asp:GridView ID="GridViewPacientes" runat="server" AutoGenerateColumns="False" DataKeyNames="ID_Paciente" OnRowCommand="GridViewPacientes_RowCommand">    <Columns>
         <asp:BoundField DataField="ID_Paciente" HeaderText="ID Paciente" />
         <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
         <asp:BoundField DataField="Apellido" HeaderText="Apellido" />

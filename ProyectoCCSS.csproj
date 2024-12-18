@@ -136,6 +136,8 @@
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Pages\EditarMedico.aspx" />
+    <Content Include="Pages\ExitoActualizar.aspx" />
     <Content Include="Pages\Expedientes.aspx" />
     <Content Include="Pages\Medicos.aspx" />
     <Content Include="Pages\Pacientes.aspx" />
@@ -263,6 +265,20 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\EditarMedico.aspx.cs">
+      <DependentUpon>EditarMedico.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\EditarMedico.aspx.designer.cs">
+      <DependentUpon>EditarMedico.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ExitoActualizar.aspx.cs">
+      <DependentUpon>ExitoActualizar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\ExitoActualizar.aspx.designer.cs">
+      <DependentUpon>ExitoActualizar.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pages\Expedientes.aspx.cs">
       <DependentUpon>Expedientes.aspx</DependentUpon>

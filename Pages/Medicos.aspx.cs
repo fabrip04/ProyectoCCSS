@@ -102,28 +102,32 @@ namespace ProyectoCCSS.Pages
         // Método para manejar el comando de eliminación de médicos
         protected void GridViewMedicos_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            if (e.CommandName == "DeleteMedicos")
+            try
             {
-                try
+                // Obtener el índice de la fila seleccionada
+                int rowIndex = Convert.ToInt32(e.CommandArgument);
+
+                // Verificar si el índice está dentro del rango
+                if (rowIndex < 0 || rowIndex >= GridViewMedicos.Rows.Count)
                 {
-                    // Obtén el índice de la fila seleccionada
-                    int rowIndex = Convert.ToInt32(e.CommandArgument);
+                    lblMensaje.Text = "Error: Índice fuera del rango.";
+                    lblMensaje.ForeColor = System.Drawing.Color.Red;
+                    return;
+                }
 
-                    // Verifica si el índice está dentro del rango
-                    if (rowIndex < 0 || rowIndex >= GridViewMedicos.Rows.Count)
-                    {
-                        lblMensaje.Text = "Error: Índice fuera del rango.";
-                        lblMensaje.ForeColor = System.Drawing.Color.Red;
-                        return;
-                    }
+                // Obtener el ID del médico de la fila seleccionada
+                int idMedico = Convert.ToInt32(GridViewMedicos.DataKeys[rowIndex].Value);
 
-                    // Obtén el ID del médico de la fila seleccionada
-                    int idMedico = Convert.ToInt32(GridViewMedicos.DataKeys[rowIndex].Value);
-
+                if (e.CommandName == "UpdateMedicos")
+                {
+                    // Redirigir a la página de edición de médico pasando el ID del médico
+                    Response.Redirect("EditarMedico.aspx?id=" + idMedico);
+                }
+                else if (e.CommandName == "DeleteMedicos")
+                {
                     // Lógica para eliminar el médico
                     using (var contexto = new CCSSDatosEntities())
                     {
-                        // Buscar el médico por ID
                         var medico = contexto.PersonalMedico.FirstOrDefault(m => m.ID_Medico == idMedico);
 
                         if (medico != null)
@@ -140,16 +144,19 @@ namespace ProyectoCCSS.Pages
                         }
                     }
 
-                    // Recargar el GridView
+                    // Recargar el GridView después de eliminar
                     CargarMedicos();
                 }
-                catch (Exception ex)
-                {
-                    lblMensaje.Text = "Ocurrió un error: " + ex.Message;
-                    lblMensaje.ForeColor = System.Drawing.Color.Red;
-                }
+            }
+            catch (Exception ex)
+            {
+                lblMensaje.Text = "Ocurrió un error: " + ex.Message;
+                lblMensaje.ForeColor = System.Drawing.Color.Red;
             }
         }
+
+
+
 
 
 
